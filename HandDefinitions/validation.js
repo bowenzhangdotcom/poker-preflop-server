@@ -1,4 +1,4 @@
-const {cardRank, RangeSuits, Actions} = require('./rank');
+const {cardRank, RangeSuits, Actions} = require('./rank.js');
 
 
 const validateCard = (card) => {
@@ -34,6 +34,6 @@ const validateAction = (action) => {
 }
 
 exports.validateCard = validateCard;
+exports.validateHandFormat = validateHandFormat;
 exports.validateRangeSuit = validateRangeSuit;
 exports.validateAction = validateAction;
-exports.validateHandFormat = validateHandFormat;

@@ -1,8 +1,8 @@
 const express = require('express');
 const router = express.Router();
-const {validateChartRange, ChartRange} = require('../model/poker-preflop');
+const {validateChartRequest, ChartRange} = require('../model/poker-preflop');
 const {generalAuth, adminAuth} = require('../middleware/auth');
-const {generateCompositeRange} =require ('../HandDefinitions/range');
+const {generateChartRange} = require('../HandDefinitions/chart');
 
 
 router.get('/api/getChartRange', generalAuth, async (req, res) => {
@@ -14,28 +14,30 @@ router.get('/api/getChartRange', generalAuth, async (req, res) => {
     res.send(resChartRange);
 });
 
-router.put('/api/addChartRange', adminAuth, async (req, res) => {   
-    const {error} = validateChartRange(req.body);
+router.put('/api/addChartRange', adminAuth, async (req, res) => {       
+    const {error} = validateChartRequest(req.body);
     if(error) return res.status(400).send(error.details[0].message);
+    
+    let chartGenerated = generateChartRange(
+        req.body.chartName,
+        req.body.raiseShortRange,
+        req.body.callShortRange,
+        req.body.foldShortRange, 
+        req.body.splitRange
+    );
 
     newChartRange = new ChartRange({
         chartName: req.body.chartName,
         chartType: req.body.chartType,
         heroPosition: req.body.heroPosition,
         villianPosition: req.body.villianPosition,
-        raiseShortRange: req.body.raiseShortRange,
-        callShortRange: req.body.callShortRange,
-        foldShortRange: req.body.foldShortRange,
+        chartRange: chartGenerated.getChart()
     });
 
     let chartRangeExist = await ChartRange.findOne({
-        chartName: req.body.chartName,
-        chartType: req.body.chartType,
-        heroPosition: req.body.heroPosition,
-        villianPosition: req.body.villianPosition,
-        raiseShortRange: req.body.raiseShortRange,
-        callShortRange: req.body.callShortRange,
-        foldShortRange: req.body.foldShortRange
+        "chartType": req.body.chartType,
+        "heroPosition": req.body.heroPosition,
+        "villianPosition": req.body.villianPosition,
     });
 
     if (chartRangeExist) {

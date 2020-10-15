@@ -1,5 +1,5 @@
-const {cardRank, numCard} = require('./rank');
-const {validateCard, validateHandFormat, validateRangeSuit} = require('./validation');
+const {cardRank, numCard} = require('./rank.js');
+const {validateCard, validateHandFormat, validateRangeSuit} = require('./validation.js');
 
 class RangeHand {
     constructor(input) {
@@ -104,10 +104,7 @@ const generateKickerRange = (minHand,maxHand='na') => {
 };
 
 //Uses a array of shorthand ranges to return a composite range
-//examples of valid inputs: 'TT+, aj, 22, 66-99, Jts, jto'
 const generateCompositeRange = (shorthand) => {
-    if (shorthand === 'NA') {return 'NA'}
-    
     const shorthandArr = shorthand.split(',')
     let cardRange = [];
     for(let i = 0; i < shorthandArr.length; i++) {
@@ -138,7 +135,7 @@ const generateCompositeRange = (shorthand) => {
             let minHand;
             let maxHand;
 
-            if (handOne.kicker > handTwo.kicker) {
+            if (handOne.kickerRank > handTwo.kickerRank) {
                 minHand = handTwo;
                 maxHand = handOne;
             } else {
@@ -157,5 +154,5 @@ const generateCompositeRange = (shorthand) => {
     return cardRange;
 };
 
-exports.RangeHand = RangeHand;
 exports.generateCompositeRange = generateCompositeRange;
+exports.RangeHand = RangeHand;

@@ -61,9 +61,8 @@ const Actions = {
     "Post":-1,
 }
 
-exports.Actions = Actions;
+exports.Actions = Actions; 
 exports.RangeSuits = RangeSuits;
-exports.Suits = Suits;
-exports.numCard = numCard;
 exports.cardRank = cardRank;
-
+exports.numCard = numCard;
+exports.Suits = Suits;
