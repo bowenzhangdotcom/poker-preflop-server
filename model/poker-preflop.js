@@ -6,6 +6,10 @@ let chartRangeSchema = new mongoose.Schema({
         type: String,
         require: true
     },
+    playerCount: {
+        type: String,
+        require: true
+    },
     chartType: {
         type: String,
         require: true
@@ -15,6 +19,10 @@ let chartRangeSchema = new mongoose.Schema({
         require: true
     },
     villianPosition: {
+        type: String,
+        require: true
+    },
+    sizing: {
         type: String,
         require: true
     },
@@ -29,9 +37,11 @@ const ChartRange = mongoose.model('ChartRange', chartRangeSchema);
 function validateChartRequest(chartRange) {
     const schema = Joi.object({
         chartName: Joi.string().required(),
+        playerCount: Joi.string().required(),
         chartType: Joi.string().required(),
         heroPosition: Joi.string().required(),
         villianPosition: Joi.string().required(),
+        sizing: Joi.string().required(),
         raiseShortRange: Joi.string().required(),
         callShortRange: Joi.string().required(),
         foldShortRange: Joi.string().required(),

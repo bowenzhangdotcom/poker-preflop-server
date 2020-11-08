@@ -215,11 +215,13 @@ class RangeChart {
         return this.chart;
     };
 
-    setSplit(hand, raisePercent, callPercent, foldPercent) {
-        this.chart[hand]["Raise"] = raisePercent;
-        this.chart[hand]["Call"] = callPercent;
-        this.chart[hand]["Fold"] = foldPercent;
-        this.split.push(hand);
+    setSplit(cardRange, raisePercent, callPercent, foldPercent) {
+        if(cardRange === 'NA') return false;
+        const handRange = generateCompositeRange(cardRange)
+        handRange.forEach((e) => {
+            this.chart[e] = {'Raise': raisePercent, 'Call': callPercent, 'Fold': foldPercent};
+            this.split.push(e);
+        });
         return this.chart;
     }
 
@@ -234,12 +236,12 @@ const generateChartRange = (chartName, raiseShortRange, callShortRange, foldShor
     chartRange.setCall(callShortRange);
     chartRange.setFold(foldShortRange);
     const splitRange = JSON.parse(splitRangeInput);
-    for (let hand in splitRange) {
-        const raisePercent = splitRange[hand]['Raise'];
-        const callPercent = splitRange[hand]['Call'];
-        const foldPercent = splitRange[hand]['Fold'];
+    for (let cardRange in splitRange) {
+        const raisePercent = splitRange[cardRange]['Raise'];
+        const callPercent = splitRange[cardRange]['Call'];
+        const foldPercent = splitRange[cardRange]['Fold'];
         try {
-            chartRange.setSplit(hand, raisePercent, callPercent, foldPercent);
+            chartRange.setSplit(cardRange, raisePercent, callPercent, foldPercent);
         } catch(error) {
             console.log(`Split Hand is not valid! ${error}`);
         }

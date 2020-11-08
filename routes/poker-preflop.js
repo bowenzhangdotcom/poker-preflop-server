@@ -9,7 +9,9 @@ router.get('/api/getChartRange', generalAuth, async (req, res) => {
     let resChartRange = await ChartRange.find({
         chartType: req.query.chartType,
         heroPosition: req.query.heroPosition,
-        villianPosition: req.query.villianPosition
+        villianPosition: req.query.villianPosition,
+        playerCount: req.query.playerCount,
+        sizing: req.query.sizing
     });
     res.send(resChartRange);
 });
@@ -28,9 +30,11 @@ router.put('/api/addChartRange', adminAuth, async (req, res) => {
 
     newChartRange = new ChartRange({
         chartName: req.body.chartName,
+        playerCount: req.body.playerCount,
         chartType: req.body.chartType,
         heroPosition: req.body.heroPosition,
         villianPosition: req.body.villianPosition,
+        sizing: req.body.sizing,
         chartRange: chartGenerated.getChart()
     });
 
@@ -38,6 +42,8 @@ router.put('/api/addChartRange', adminAuth, async (req, res) => {
         "chartType": req.body.chartType,
         "heroPosition": req.body.heroPosition,
         "villianPosition": req.body.villianPosition,
+        "playerCount": req.body.playerCount,
+        "sizing": req.body.sizing
     });
 
     if (chartRangeExist) {
@@ -53,9 +59,6 @@ router.put('/api/addChartRange', adminAuth, async (req, res) => {
 router.delete('/api/deleteRange', adminAuth, async (req, res) => {
     let range = await ChartRange.deleteOne({
         chartName: req.body.chartName,
-        chartType: req.body.chartType,
-        heroPosition: req.body.heroPosition,
-        villianPosition: req.body.villianPosition
     });
     if (range.n < 1) return res.status(400).send('The chartRange with the given parameters was not found');
     res.send(`${req.body.chartName} has been deleted`);
