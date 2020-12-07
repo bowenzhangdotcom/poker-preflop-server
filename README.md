@@ -10,7 +10,7 @@ Sizing (Only for 2 player): 2x, 2.25x, 2.5x, 3x, 3.5x, 4x, 4.5x, 5x
 
 ## How to use
 ### Get Endpoint
-Returns a hand chart that matches the following criteria: {
+Returns a hand chart that matches the following criteria: {  
         chartType:  
         heroPosition:  
         villianPosition:  
@@ -19,7 +19,7 @@ Returns a hand chart that matches the following criteria: {
 }
 
 ### Put Endpoint
-Adds a hand chart with the following parameters: {
+Adds a hand chart with the following parameters: {  
         chartName:  
         playerCount:  
         chartType:  
